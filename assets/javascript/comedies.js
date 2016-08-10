@@ -1,7 +1,6 @@
 // Prevents JavaScript from running before HTML is finished loading:
 $( document ).ready(function() {
 
-	// Global Variables.
 	// Array containing four TV comedies:
 	var comedies = [
 		"the simpsons",
@@ -10,13 +9,8 @@ $( document ).ready(function() {
 		"parks and recreation"
 		];
 
-	// Functions.
 
-
-	// Main Processes.
-
-
-    $("#addComedy").on('click', function() {
+    $("button").on('click', function() {
     	// $("#gifsAppearHere").empty();
         var comedies = $(this).attr("data-value");
         // Declares a variable and assigns it to the Giphy API URL -- with the userinput search word:
@@ -80,12 +74,32 @@ $( document ).ready(function() {
 			$(this).attr("data-state", "still")
 		}
 	});
+
+	// Create buttons dynamically:
+	function makeButton() {
+		$("#displayButtons").empty();
+		for (i=0; i<comedies.length; i++){
+			var button = $("<button>");
+			button.addClass("comedies");
+			button.attr("data-value", comedies[i]);
+			button.text(comedies[i]);
+			button.addClass("btn");
+			button.addClass("btn-info");
+			$("#showButtons").append(button);
+		}
+	}
+
+
+	$("#addButton").on("click", function(){
+		var comedyInput = $("#comedyName").val().trim();
+			comedies.push(comedyInput);
+
+			makeButton();
+			return false;
+
+	});
+
+	makeButton();
 // This closing bracket line is driving me insane.
-// No matter what I add or delete, console catches it as an error.
+// No matter which character(s) I add or delete, console catches it as an error.
 });
-
-
-//     <button data-comedy="the simpsons">The Simpsons</button>
-//     <button data-comedy="futurama">Futurama</button>
-//     <button data-comedy="the office">The Office</button>
-//     <button data-comedy="parks and recreation">Parks and Recreation</button>

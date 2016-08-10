@@ -1,6 +1,8 @@
+// Prevents JavaScript from running before HTML is finished loading:
 $( document ).ready(function() {
 
 	// Global Variables.
+	// Array containing four TV comedies:
 	var comedies = [
 		"the simpsons",
 		"futurama",
@@ -13,25 +15,25 @@ $( document ).ready(function() {
 
 	// Main Processes.
 
-    $('body').on('click', ".comedies", function() {
-    	$("#gifsAppearHere").empty();
+
+    $("#addComedy").on('click', function() {
+    	// $("#gifsAppearHere").empty();
         var comedies = $(this).attr("data-value");
-        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + comedies + "&api_key=dc6zaTOxFJmzC&limit=10";
-	}
+        // Declares a variable and assigns it to the Giphy API URL -- with the userinput search word:
+        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + comedies + "&api_key=dc6zaTOxFJmzC&limit=10";
+
+        // This gets a gif from the search url listed above:
         $.ajax({
                 url: queryURL,
                 method: 'GET'
             })
-            .done(function(response) {
-                // step 1: Run this file, click a button, and see what the data looks like in the browser's console. Open up the Object, then open up the data key, then open up 0. Study the keys and how the JSON is structured.
 
+        	// Retrieves the response object...
+            .done(function(response) {
                 console.log(response)
 
-                // step 2: since the image information is inside of the data key then make a variable named results and set it equal to response.data
-
-                //------------put step 2 in between these dashes--------------------
                 var results = response.data
-                //--------------------------------
+
 
                 for (var i = 0; i < results.length; i++) {
                 	
@@ -52,35 +54,37 @@ $( document ).ready(function() {
                     	appender.append("Rating: " + comedyImageRating);
                     	$("#gifsAppearHere").prepend(appender);
                 }
+            
     });
+
+
+	// Toggle between animated and still gifs:
+	$(".comedyImage").on('click', function() {
+		// Declare variable of state so the jQuery code is more manageable:
+		var state = $(this).attr("data-state");
+		// Console log the state for your own reference:
+		console.log(state);
+
+		// Declare variables for jQuery code for animated and still gifs:
+		var $animate = $(this).attr("data-animate");
+		var $still = $(this).attr("data-still");
+
+		// If the gif is still, clicking it will change its state to animated:
+		if (state === "still") {
+			$(this).attr("src", $animate)
+			$(this).attr("data-state", "animate")
+		}
+		// If the gif is NOT still, click it will change its state to still:
+		else {
+			$(this).attr("src", $still)
+			$(this).attr("data-state", "still")
+		}
+	});
+// This closing bracket line is driving me insane.
+// No matter what I add or delete, console catches it as an error.
 });
 
-// Toggle between animated and still gifs:
-$(".comedyImage").on('click', function() {
-	// Declare variable of state so the jQuery code is more manageable:
-	var state = $(this).attr("data-state");
-	// Console log the state for your own reference:
-	console.log(state);
 
-	// Declare variables for jQuery code for animated and still gifs:
-	var $animate = $(this).attr("data-animate");
-	var $still = $(this).attr("data-still");
-
-	// If the gif is still, clicking it will change its state to animated:
-	if (state === "still") {
-		$(this).attr("src", $animate)
-		$(this).attr("data-state", "animate")
-	}
-	// If the gif is NOT still, click it will change its state to still:
-	else {
-		$(this).attr("src", $still)
-		$(this).attr("data-state", "still")
-	}
-});
-
-
-
-// "data-comedy" used to be "data-person"
 //     <button data-comedy="the simpsons">The Simpsons</button>
 //     <button data-comedy="futurama">Futurama</button>
 //     <button data-comedy="the office">The Office</button>

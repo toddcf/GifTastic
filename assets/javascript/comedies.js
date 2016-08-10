@@ -103,3 +103,5 @@ $( document ).ready(function() {
 // This closing bracket line is driving me insane.
 // No matter which character(s) I add or delete, console catches it as an error.
 });
+
+// Pushed to https://toddcf.github.io/GifTastic/

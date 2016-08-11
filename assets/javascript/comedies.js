@@ -1,5 +1,6 @@
 // Prevents JavaScript from running before HTML is finished loading:
-$( document ).ready(function() {
+// $( document ).ready(function() {
+// Commented out for debugging.
 
 	// Array containing four TV comedies:
 	var comedies = [
@@ -10,8 +11,8 @@ $( document ).ready(function() {
 		];
 
 
-    $("button").on('click', function() {
-    	// $("#gifsAppearHere").empty();
+    $("body").on('click', ".comedies", function() {
+    	$("#gifsAppearHere").empty();
         var comedies = $(this).attr("data-value");
         // Declares a variable and assigns it to the Giphy API URL -- with the userinput search word:
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + comedies + "&api_key=dc6zaTOxFJmzC&limit=10";
@@ -36,24 +37,24 @@ $( document ).ready(function() {
                     var comedyImage = $("<img>");
                     var comedyImageRating = results[i].rating;
                     // Set attributes for the comedyImage when still:
-                    comedyImage.attr("src", results[i].fixed_height_still.url);
+                    comedyImage.attr("src", results[i].images.fixed_height_still.url);
                     comedyImage.attr("data-state", "still");
-                    comedyImage.attr("data-still", results[i].fixed_height_still.url);
+                    comedyImage.attr("data-still", results[i].images.fixed_height_still.url);
                     // Set attributes for the comedyImage when animated:
-                    comedyImage.attr("data-animate", results[i].fixed_height.url);
+                    comedyImage.attr("data-animate", results[i].images.fixed_height.url);
                     // Add class of "comedyImage" to the image:
                     comedyImage.addClass("comedyImage");
                     // Append image rating to the gif:
-                    var appender = comedyImageDiv.append(comedyImage);
+                    var appender = comedyDiv.append(comedyImage);
                     	appender.append("Rating: " + comedyImageRating);
                     	$("#gifsAppearHere").prepend(appender);
                 }
             
     });
-
+});
 
 	// Toggle between animated and still gifs:
-	$(".comedyImage").on('click', function() {
+	$("body").on('click', ".comedyImage", function() {
 		// Declare variable of state so the jQuery code is more manageable:
 		var state = $(this).attr("data-state");
 		// Console log the state for your own reference:
@@ -78,14 +79,14 @@ $( document ).ready(function() {
 	// Create buttons dynamically:
 	function makeButton() {
 		$("#displayButtons").empty();
-		for (i=0; i<comedies.length; i++){
+		for (i = 0; i < comedies.length; i++){
 			var button = $("<button>");
 			button.addClass("comedies");
 			button.attr("data-value", comedies[i]);
 			button.text(comedies[i]);
 			button.addClass("btn");
 			button.addClass("btn-info");
-			$("#showButtons").append(button);
+			$("#displayButtons").append(button);
 		}
 	}
 
@@ -95,13 +96,12 @@ $( document ).ready(function() {
 			comedies.push(comedyInput);
 
 			makeButton();
-			return false;
+			
+			// return false;
 
 	});
 
 	makeButton();
-// This closing bracket line is driving me insane.
-// No matter which character(s) I add or delete, console catches it as an error.
-});
 
-// Pushed to https://toddcf.github.io/GifTastic/
+// GH-Pages: https://toddcf.github.io/GifTastic/
+// Heroku: https://peaceful-tundra-86223.herokuapp.com

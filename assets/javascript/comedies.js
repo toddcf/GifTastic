@@ -15,7 +15,7 @@
     	$("#gifsAppearHere").empty();
         var comedies = $(this).attr("data-value");
         // Declares a variable and assigns it to the Giphy API URL -- with the userinput search word:
-        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + comedies + "&api_key=dc6zaTOxFJmzC&limit=10";
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + comedies + "&api_key=dc6zaTOxFJmzC&limit=10";
 
         // This gets a gif from the search url listed above:
         $.ajax({
